@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Agencia</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+  <h1>Editar Agencia</h1>
+
+  <form th:action="@{/agencias/actualizar}" method="post">
+
+    <!-- ID oculto -->
+    <input type="hidden" name="id" th:value="${agencia.id}"/>
+
+    <div class="mb-3">
+      <label class="form-label">Nombre</label>
+      <input type="text"
+             name="nombre"
+             class="form-control"
+             th:value="${agencia.nombre}"
+             required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="text"
+             name="ubicacion"
+             class="form-control"
+             th:value="${agencia.ubicacion}"
+             required>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar cambios</button>
+    <a href="/agencias" class="btn btn-secondary ms-2">Cancelar</a>
+
+  </form>
+
+  <hr class="my-4">
+
+  <h2>Usuarios de esta agencia</h2>
+
+  <div th:if="${usuarios == null || #lists.isEmpty(usuarios)}" class="alert alert-info">
+    Esta agencia no tiene usuarios asociados.
+  </div>
+
+  <table th:if="${usuarios != null && !#lists.isEmpty(usuarios)}" class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="u : ${usuarios}">
+      <td th:text="${u.id}"></td>
+      <td th:text="${u.nombre}"></td>
+      <td th:text="${u.apellido}"></td>
+      <td>
+        <a th:href="@{/agencias/usuarios/eliminar(usuarioId=${u.id}, agenciaId=${agencia.id})}"
+           class="btn btn-danger btn-sm">
+          Eliminar usuario
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+
+</body>
+</html>

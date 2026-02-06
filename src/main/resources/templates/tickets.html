@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Tickets</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Lista de Tickets</h1>
+    <a class="btn btn-outline-secondary" href="/">Volver</a>
+  </div>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Precio</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Usuario</th>
+      <th>Vuelo</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ticket : ${tickets}">
+      <td th:text="${ticket.precio}"></td>
+      <td th:text="${ticket.fecha}"></td>
+      <td th:text="${ticket.hora}"></td>
+      <td th:text="${ticket.usuario != null ? ticket.usuario.nombre : '—'}"></td>
+      <td th:text="${ticket.vuelo != null ? ticket.vuelo.id : '—'}"></td>
+      <td>
+        <a th:href="@{/tickets/editar(id=${ticket.id})}" class="btn btn-warning btn-sm me-1">Editar</a>
+        <a th:href="@{/tickets/eliminar(id=${ticket.id})}" class="btn btn-danger btn-sm">Eliminar</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2 class="mt-4">Agregar Ticket</h2>
+  <form action="/tickets/guardar" method="post">
+    <div class="mb-3">
+      <label for="precio" class="form-label">Precio</label>
+      <input id="precio" name="precio" type="number" step="0.01" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="fecha" class="form-label">Fecha</label>
+      <input id="fecha" name="fecha" type="date" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="hora" class="form-label">Hora</label>
+      <input id="hora" name="hora" type="time" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="usuarioId" class="form-label">Usuario</label>
+      <select id="usuarioId" name="usuarioId" class="form-control" required>
+        <option value="" selected disabled>Selecciona un ticket</option>
+        <option th:each="u : ${usuarios}" th:value="${u.id}" th:text="${u.nombre}"></option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="vueloId" class="form-label">Vuelo</label>
+      <select id="vueloId" name="vueloId" class="form-control" required>
+        <option value="" selected disabled>Selecciona un vuelo</option>
+        <option th:each="v : ${vuelos}" th:value="${v.id}"
+                th:text="${'ID ' + v.id + ' - ' + v.avion + ' → ' + v.destino}"></option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </form>
+</div>
+</body>
+</html>
