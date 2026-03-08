@@ -122,7 +122,7 @@ such as:
 
 1.  Clone the repository
 
-git clone https://github.com/your-username/flight-management-system.git
+git clone https://github.com/DNogueraa/vuelos.git
 
 2.  Open the project in your preferred IDE (IntelliJ IDEA or Eclipse
     recommended).
